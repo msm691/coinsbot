@@ -1,0 +1,20 @@
+{
+  "categories": {
+    "outils": {
+      "emoji": "🔧",
+      "items": []
+    },
+    "armes": {
+      "emoji": "⚔️",
+      "items": []
+    },
+    "consommables": {
+      "emoji": "🧪",
+      "items": []
+    },
+    "collectibles": {
+      "emoji": "💎",
+      "items": []
+    }
+  }
+}
