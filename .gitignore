@@ -26,3 +26,9 @@ npm-debug.log*
 # Build
 dist/
 build/
+
+# Autre
+CLAUDE.md
+.agents
+.claudeignore
+skills-lock.json
