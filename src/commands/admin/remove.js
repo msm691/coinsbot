@@ -3,6 +3,7 @@ const { User, Transaction, sequelize } = require('../../database/models');
 const { createEmbed, COLORS } = require('../../utils/embed');
 const { formatMoney, parseAmount } = require('../../utils/formatters');
 const { atomicTransaction, lockUser } = require('../../utils/transactions');
+const { log } = require('../../utils/logHandler');
 
 module.exports = {
     name: 'remove',
@@ -44,6 +45,17 @@ module.exports = {
                     balance_after: newBalance,
                 }, { transaction: t });
             });
+        });
+
+        log.admin(client, message.guild, {
+            title: '⚙️ Retrait de coins',
+            user: message.author,
+            target,
+            fields: [
+                { name: 'Cible', value: `${target} (${target.id})`, inline: true },
+                { name: 'Montant', value: formatMoney(actualRemoved), inline: true },
+                { name: 'Nouveau solde', value: formatMoney(newBalance), inline: true },
+            ],
         });
 
         message.reply({ embeds: [createEmbed({

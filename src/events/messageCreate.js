@@ -5,6 +5,7 @@ const config = require('../config');
 const { getCommand } = require('../handlers/commandHandler');
 const { createEmbed, COLORS } = require('../utils/embed');
 const { checkPermission } = require('../utils/permissions');
+const { log } = require('../utils/logHandler');
 
 module.exports = {
   name: 'messageCreate',
@@ -94,6 +95,16 @@ module.exports = {
     } catch (error) {
       // 11. Log the full error stack and notify the user
       console.error(`[ERREUR] Commande "${command.name}" :`, error.stack || error);
+
+      log.error(client, message.guild, {
+        title: `❌ Erreur — \`${command.name}\``,
+        description: `\`\`\`${String(error.message).slice(0, 1000)}\`\`\``,
+        user: message.author,
+        fields: [
+          { name: 'Commande', value: `\`${prefix}${command.name}\``, inline: true },
+          { name: 'Salon', value: `${message.channel}`, inline: true },
+        ],
+      });
 
       message.reply({
         embeds: [
