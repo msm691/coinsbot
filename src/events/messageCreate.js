@@ -24,10 +24,9 @@ module.exports = {
     // 3. Resolve guild prefix (database lookup with fallback)
     let prefix = config.defaultPrefix;
     try {
-      // Will be implemented when Guild model is available
-      // const Guild = require('../database/models').Guild;
-      // const guildData = await Guild.findOne({ where: { id: message.guild.id } });
-      // if (guildData && guildData.prefix) prefix = guildData.prefix;
+      const { Guild } = require('../database/models');
+      const guildData = await Guild.findOne({ where: { id: message.guild.id } });
+      if (guildData && guildData.prefix) prefix = guildData.prefix;
     } catch {
       // DB not ready yet — silently fall back to default prefix
     }

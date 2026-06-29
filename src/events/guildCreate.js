@@ -20,14 +20,13 @@ module.exports = {
 
     // ── Create a default database entry for this guild ───────────────────────
     try {
-      // Will be implemented when Guild model is available
-      // await Guild.findOrCreate({
-      //   where: { guildId: guild.id },
-      //   defaults: {
-      //     guildName: guild.name,
-      //     prefix: config.defaultPrefix,
-      //   },
-      // });
+      const { Guild } = require('../database/models');
+      await Guild.findOrCreate({
+        where: { id: guild.id },
+        defaults: {
+          prefix: config.defaultPrefix,
+        },
+      });
     } catch (error) {
       console.error(
         `[ERREUR] Impossible de créer l'entrée pour le serveur ${guild.name} :`,
