@@ -72,6 +72,9 @@ async function initDatabase() {
         // Seed default market items if table is empty
         await seedMarket(models.Market);
 
+        // Seed default card pool if table is empty
+        await seedCards(models.Card);
+
     } catch (error) {
         console.error('\x1b[31m✖ Erreur de connexion à la base de données:\x1b[0m', error);
         throw error;
@@ -133,6 +136,38 @@ async function seedMarket(Market) {
 
     await Market.bulkCreate(items);
     console.log(`  \x1b[32m✔ Boutique initialisée (${items.length} objets)\x1b[0m`);
+}
+
+/**
+ * Seed the card pool with default collectible cards.
+ * Only runs if the table is empty.
+ */
+async function seedCards(Card) {
+    const count = await Card.count();
+    if (count > 0) return;
+
+    const cards = [
+        // Common — drop_rate total: 60
+        { name: 'Guerrier Commun',   description: 'Un soldat ordinaire des plaines.',        rarity: 'common',    attack: 15, defense: 10, speed: 10, series: 'Série 1', drop_rate: 30 },
+        { name: 'Mage Débutant',     description: 'Un apprenti sorcier en quête de pouvoir.', rarity: 'common',    attack: 20, defense:  5, speed: 12, series: 'Série 1', drop_rate: 30 },
+        // Uncommon — drop_rate total: 25
+        { name: 'Archer Habile',     description: 'Tire avec une précision redoutable.',      rarity: 'uncommon',  attack: 25, defense: 12, speed: 18, series: 'Série 1', drop_rate: 12 },
+        { name: 'Paladin Gardien',   description: 'Protège ses alliés au péril de sa vie.',   rarity: 'uncommon',  attack: 18, defense: 25, speed: 10, series: 'Série 1', drop_rate: 13 },
+        // Rare — drop_rate total: 10
+        { name: "Ninja de l'Ombre", description: "Frappe depuis l'obscurité sans pitié.",    rarity: 'rare',      attack: 30, defense: 15, speed: 25, series: 'Série 1', drop_rate:  5 },
+        { name: 'Sorcier Élémental', description: 'Maîtrise les éléments à la perfection.',   rarity: 'rare',      attack: 35, defense:  8, speed: 20, series: 'Série 1', drop_rate:  5 },
+        // Epic — drop_rate total: 4
+        { name: 'Dragon Rouge',      description: 'Incendie tout sur son passage dévastateur.', rarity: 'epic',    attack: 45, defense: 30, speed: 20, series: 'Série 1', drop_rate:  2 },
+        { name: 'Démon des Abysses', description: 'Surgit des profondeurs pour détruire.',     rarity: 'epic',    attack: 50, defense: 20, speed: 22, series: 'Série 1', drop_rate:  2 },
+        // Legendary — drop_rate total: 0.9
+        { name: 'Titan Légendaire',  description: 'Invincible et majestueux parmi les dieux.', rarity: 'legendary', attack: 60, defense: 50, speed: 30, series: 'Série 1', drop_rate: 0.45 },
+        { name: 'Phénix Immortel',   description: 'Renaît de ses cendres, éternel et libre.',  rarity: 'legendary', attack: 55, defense: 45, speed: 40, series: 'Série 1', drop_rate: 0.45 },
+        // Mythic — drop_rate total: 0.1
+        { name: 'Dieu de la Guerre', description: "L'ultime guerrier. Nul ne lui résiste.",    rarity: 'mythic',   attack: 80, defense: 70, speed: 60, series: 'Série 1', drop_rate:  0.1 },
+    ];
+
+    await Card.bulkCreate(cards);
+    console.log(`  \x1b[32m✔ Pool de cartes initialisé (${cards.length} cartes)\x1b[0m`);
 }
 
 module.exports = { sequelize, initDatabase };
