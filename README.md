@@ -104,8 +104,8 @@ node src/index.js
 ## 📊 Avancement
 
 - [x] 🏗️ Architecture & Fondations
-- [ ] ⚙️ Configuration de base (handlers, events, utils)
-- [ ] 🗄️ Modèles de base de données (Sequelize)
+- [x] ⚙️ Configuration de base (handlers, events, utils)
+- [x] 🗄️ Modèles de base de données (Sequelize)
 - [ ] 💰 Module Économie & Banque
 - [ ] 💼 Module Travail & Illégal
 - [ ] 🎰 Module Casino & Mini-Jeux
