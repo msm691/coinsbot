@@ -6,7 +6,7 @@ const { atomicTransaction, lockUser } = require('../../utils/transactions');
 
 module.exports = {
     name: 'add',
-    aliases: ['addcoins', 'give', 'donner', 'addmoney'],
+    aliases: ['addcoins', 'addmoney', 'adminadd'],
     category: 'admin',
     description: 'Ajouter des coins au portefeuille d\'un utilisateur.',
     usage: '&add @utilisateur <montant>',
