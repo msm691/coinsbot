@@ -1,0 +1,29 @@
+{
+  "name": "coinsbot",
+  "version": "1.0.0",
+  "description": "Bot Discord d'Économie, RPG et Gestion Massivement Multijoueur",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "economy",
+    "rpg",
+    "casino"
+  ],
+  "author": "msm691",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.26.4",
+    "dotenv": "^17.4.2",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1"
+  }
+}
