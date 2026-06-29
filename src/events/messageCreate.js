@@ -21,12 +21,13 @@ module.exports = {
     // 2. Ignore DMs — commands only work inside guilds
     if (!message.guild) return;
 
-    // 3. Resolve guild prefix (database lookup with fallback)
+    // 3. Resolve guild config (prefix, disabled commands, custom cooldowns)
     let prefix = config.defaultPrefix;
+    let guildData = null;
     try {
       const { Guild } = require('../database/models');
-      const guildData = await Guild.findOne({ where: { id: message.guild.id } });
-      if (guildData && guildData.prefix) prefix = guildData.prefix;
+      guildData = await Guild.findOne({ where: { id: message.guild.id } });
+      if (guildData?.prefix) prefix = guildData.prefix;
     } catch {
       // DB not ready yet — silently fall back to default prefix
     }
@@ -43,6 +44,12 @@ module.exports = {
     const command = getCommand(client, commandName);
     if (!command) return;
 
+    // 6b. Check if command is disabled on this guild
+    if (guildData) {
+      const disabled = guildData.disabled_commands || [];
+      if (disabled.includes(command.name)) return;
+    }
+
     // 7. Permission check
     const permResult = checkPermission(message.member, command.permissions || 'everyone');
     if (!permResult.allowed) {
@@ -58,7 +65,11 @@ module.exports = {
     }
 
     // 8. Cooldown check (using the CooldownManager singleton on client)
-    const cooldownMs = command.cooldown || 3000; // Default 3s cooldown
+    let cooldownMs = command.cooldown || 3000;
+    const guildCooldowns = guildData?.permissions?._cooldowns;
+    if (guildCooldowns && typeof guildCooldowns[command.name] === 'number') {
+      cooldownMs = guildCooldowns[command.name];
+    }
     const { onCooldown, remaining } = client.cooldowns.check(command.name, message.author.id, cooldownMs);
 
     if (onCooldown) {
