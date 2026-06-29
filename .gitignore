@@ -7,6 +7,8 @@ node_modules/
 # SQLite database
 *.sqlite
 *.sqlite3
+*.sqlite-shm
+*.sqlite-wal
 database.sqlite
 
 # OS files
